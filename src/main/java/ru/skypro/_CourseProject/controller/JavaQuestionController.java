@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.skypro._CourseProject.model.Question;
 import ru.skypro._CourseProject.service.QuestionService;
 
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/exam/java")
 public class JavaQuestionController {
@@ -15,27 +17,19 @@ public class JavaQuestionController {
     public JavaQuestionController(QuestionService questionService) {
         this.questionService = questionService;
     }
+
     @GetMapping("add")
-    public Question addQuestion(
-            @RequestParam("question") String question,
-            @RequestParam("answer") String answer
-    ) {
-        return questionService.addQuestion(question, answer);
+    public Question add(String question, String answer) {
+        return questionService.add(question, answer);
     }
 
     @GetMapping("remove")
-    public Question removeQuestion(
-            @RequestParam("question") String question,
-            @RequestParam("answer") String answer
-    ) {
-        return questionService.addQuestion(question, answer);
+    public Question remove(String question, String answer) {
+        return questionService.remove(new Question(question, answer));
     }
 
     @GetMapping
-    public Question getAllQuestions(
-            @RequestParam("question") String question,
-            @RequestParam("answer") String answer
-    ) {
-        return questionService.addQuestion(question, answer);
+    public Collection<Question> getAll() {
+        return questionService.getAll();
     }
 }

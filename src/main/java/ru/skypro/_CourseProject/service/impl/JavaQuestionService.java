@@ -1,42 +1,54 @@
 package ru.skypro._CourseProject.service.impl;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import ru.skypro._CourseProject.model.Question;
 import ru.skypro._CourseProject.service.QuestionService;
 
-import java.util.Collection;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class JavaQuestionService implements QuestionService {
 
-    Set<Question> questions;
+    private final Set<Question> questions = new HashSet<>();
 
-    @Override
-    public Question addQuestion(String question, String answer) {
-        return null;
+    private final Random random = new Random();
+
+    @PostConstruct
+    public void init() {
+        add("question 1", "answer 1");
+        add("question 2", "answer 2");
+        add("question 3", "answer 3");
+        add("question 4", "answer 4");
     }
 
     @Override
-    public Question findQuestion(Question question) {
-        return null;
+    public Question add(String question, String answer) {
+        Question newQuestion = new Question(question, answer);
+        questions.add(newQuestion);
+        return newQuestion;
     }
 
     @Override
-    public Question removeQuestion(Question question) {
-        return null;
+    public Question add(Question question) {
+        questions.add(question);
+        return question;
     }
 
     @Override
-    public Collection<Question> getAllQuestions() {
-        return null;
+    public Question remove(Question question) {
+        questions.remove(question);
+        return question;
+    }
+
+    @Override
+    public Collection<Question> getAll() {
+        return Collections.unmodifiableSet(questions);
     }
 
     @Override
     public Question getRandomQuestion() {
-        Random random = new Random();
-        int index = random.nextInt(questions.toArray().length);
-        return (Question) questions.toArray()[index];
+        int randomIndex = random.nextInt(questions.size());
+        return new ArrayList<>(questions).get(randomIndex);
     }
 }
